@@ -1,0 +1,43 @@
+{
+  "puppet_task_version": 1,
+  "supports_noop": false,
+  "description": "Creates a VM in the Nutanix system, assumes the host it is run on already has been configured for authentication",
+  "parameters": {
+    "servername": {
+      "description": "Which Nutanix server to connect to (named in config file)",
+      "type": "Optional[Pattern[/^([A-Za-z0-9]?)+$/]]"
+    },
+    "configpath": {
+      "description": "Path to config file on disk, defaults to /etc/nutanix.yaml",
+      "type": "Optional[Pattern[/^([A-Za-z0-9._-]+/?)+$/]]"
+    },
+    "vm_name": {
+      "description": "Name of the Virtual Machine to be provisioned",
+      "type": "Pattern[/^([A-Za-z0-9._-]+,?)+$/]"
+    },
+    "description": {
+      "description": "Description of the VM",
+      "type": "Optional[Pattern[/^([A-Za-z0-9._-]+,?)+$/]]"
+    },
+    "memory_mb": {
+      "description": "Memory in MB for the VM",
+      "type": "Integer"
+    },
+    "num_cores_per_vcpu": {
+      "description": "Number of Cores per VCPU",
+      "type": "Integer"
+    },
+    "num_vcpus": {
+      "description": "Number of VCPUs",
+      "type": "Integer"
+    },
+    "userdata": {
+      "description": "Userdata",
+      "type": "Optional[String[]]"
+    },
+    "userdata_path": {
+      "description": "Userdata Path",
+      "type": "Optional[String[]]"
+    }
+  }
+}
