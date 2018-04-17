@@ -1,4 +1,4 @@
-##Day 1 Pointers
+## Day 1 Pointers
 Prism Central is the primary API endpoint that we’ll be developing against. 
 
 We use swagger-ui as our live API Explorer, which you can access from the “Admin” menu in the upper right hand corner of our UI, and clicking API Explorer. 
