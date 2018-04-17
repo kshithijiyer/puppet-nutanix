@@ -104,11 +104,7 @@ I’d suggest starting there and seeing what different calls and methods we have
     * This is the final milestone, but we’ll want to understand the process on how to publish updates (for bug fixes, enhancements, etc)
 
 Assumptions for Scoping
-* Nutanix to provide development env
-* Nutanix will provide access to tools used to perform the required activities.
 * Nutanix will provide access to repositories to store the code
-* Changes (Pull Requests) will be approved by one of the members of your team and one of Nutanix
-    * We need to talk about the process for this, I don’t want process to get in the way of progress 😃 but let’s make sure we keep a good cadence when code is landing
 * Nutanix team will be available for a review meeting every week
 * The Plugin will be built against the latest release of Puppet
     * This is a given, we do not want to support anything older than what is CURRENT today, so we can avoid any tech debt. 
