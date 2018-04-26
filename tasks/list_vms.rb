@@ -52,17 +52,22 @@ password = config['password']
 # end copy of common methods
 
 
+message = { "length" => "1"}
+
 #https://docs.ruby-lang.org/en/2.0.0/Net/HTTP.html
 
-request = Net::HTTP::Get.new("https://#{server}:#{port}/PrismGateway/services/rest/v2.0/vms/")
+puts message.to_json
+
+request = Net::HTTP::Post.new("https://#{server}:#{port}/api/nutanix/v3/vms/list")
 request.basic_auth username, password
+request.body = message.to_json
 
 client = Net::HTTP.new(server, port)
 client.use_ssl = true
 client.verify_mode = OpenSSL::SSL::VERIFY_NONE
 
-result = client.request(request)
+response = client.request(request)
 
-puts result.inspect
+puts response.inspect
 
-puts result.body
+puts response.body
