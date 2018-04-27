@@ -52,13 +52,13 @@ password = config['password']
 # end copy of common methods
 
 
-message = { "length" => "1"}
+message = { "kind" => "vm" }
 
 #https://docs.ruby-lang.org/en/2.0.0/Net/HTTP.html
 
 puts message.to_json
 
-request = Net::HTTP::Post.new("https://#{server}:#{port}/api/nutanix/v3/vms/list")
+request = Net::HTTP::Post.new("https://#{server}:#{port}/api/nutanix/v3/vms/list", 'Content-Type' => 'application/json')
 request.basic_auth username, password
 request.body = message.to_json
 
