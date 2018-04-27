@@ -52,23 +52,47 @@ password = config['password']
 # end copy of common methods
 
 
+
+
 # this is the hash we're constructing from the variables passed by the end user
 # we could add some sane defaults here, don't know if API will merge fields not represented
+
+# bash testing shortcuts
+# export PT_vm_name=testing-$(date "+%Y-%m-%d-%S")
+# export PT_memory_mb=1024
+# export PT_subnet_uuid=9d271b40-38d4-4cf1-b4f0-e5ac16b853e7
+# export PT_num_vcpus=1
+# export PT_num_cores_per_vcpu=1
+
+# should switch this to much smarter mapping / kv thing to deal with json passing instead of env
+
 new_vm = {
-    "description" => ENV['PT_description'],
-    "name" => ENV['PT_vm_name'],
-    "memory_mb" =>  ENV['PT_memory_mb'],
-    "num_cores_per_vcpu" => ENV['PT_num_cores_per_vcpu'],
-    "num_vcpus" => ENV['PT_num_vcpus'],
-    "vm_customization_config" => {
-        "datasource_type" => "CONFIG_DRIVE_V2",
-        "fresh_install" => true,
-        "userdata" => ENV['PT_userdata'],
-        "userdata_path" => ENV['PT_userdata_path']
+    "api_version"=> "3.0",
+    "metadata" => {
+        "kind"=> "vm"
     },
+    "spec" => {
+        "name" => "#{ENV['PT_vm_name']}",
+        "resources" => {
+            "memory_size_mib" => ENV['PT_memory_mb'].to_i,
+            "nic_list" => [
+                {
+                    "subnet_reference" => {
+                        "kind" => "subnet",
+                        "uuid" => "#{ENV['PT_subnet_uuid']}"
+                    }
+                }
+            ],
+            "num_sockets" => ENV['PT_num_vcpus'].to_i,
+            "num_vcpus_per_socket" => ENV['PT_num_cores_per_vcpu'].to_i,
+            "power_state" => "ON"
+        }
+    }
 }
 
-request = Net::HTTP::Post.new("https://#{server}:#{port}/PrismGateway/services/rest/v2.0/vms/", 'Content-Type' => 'application/json')
+puts "Attempting to create #{ENV['PT_vm_name']}"
+
+request = Net::HTTP::Post.new("https://#{server}:#{port}/api/nutanix/v3/vms", 'Content-Type' => 'application/json')
 request.basic_auth username, password
 request.body = new_vm.to_json
 
@@ -78,13 +102,32 @@ client.verify_mode = OpenSSL::SSL::VERIFY_NONE
 
 response = client.request(request)
 
-if response.code == '200'
-    puts 'request submitted'
-    puts response.body
+#puts response.code
+#puts response.body['status']
+
+if response.code == '202'
+    puts 'Request Accepted'
 end
 
-response_body = JSON[request.body]
+response_body = JSON[response.body]
 
-task_uuid = response_body['task_uuid']
+task_uuid = response_body['status']['execution_context']['task_uuid']
 
+task = Net::HTTP::Get.new("https://#{server}:#{port}/api/nutanix/v3/tasks/#{task_uuid}")
+task.basic_auth username, password
+
+task_response = client.request(task)
+
+task_status = JSON[task_response.body]['status']
+
+puts "VM creation is #{task_status}"
+
+while task_status != 'SUCCEEDED'
+    puts "VM creation is still #{task_status}"
+    sleep(5)
+    task_response = client.request(task)
+    task_status = JSON[task_response.body]['status']
+end
+
+puts "#{ENV['PT_vm_name']} has been created!"
 ## do a while loop here to wait for the VM to be provisioned

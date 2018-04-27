@@ -35,6 +35,10 @@
       "description": "Userdata",
       "type": "Optional[String[]]"
     },
+    "subnet_uuid": {
+      "description": "Subnet UUID in Nutanix Environment",
+      "type": "String[]"
+    },
     "userdata_path": {
       "description": "Userdata Path",
       "type": "Optional[String[]]"
