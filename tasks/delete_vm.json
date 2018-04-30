@@ -2,7 +2,7 @@
   "puppet_task_version": 1,
   "supports_noop": false,
   "input_method": "stdin",
-  "description": "Lists Nutanix VMs",
+  "description": "Deletes Nutanix VM when given a UUID",
   "parameters": {
     "servername": {
       "description": "Which Nutanix server to connect to (named in config file)",
