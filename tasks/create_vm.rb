@@ -32,16 +32,29 @@ require 'yaml'
 require 'json'
 require 'net/https'
 
-def load_config 
-    server = ENV['PT_servername'] || 'default'
-    configpath = ENV['PT_configpath'] || '/etc/nutanix.yaml'
+params = JSON.parse(STDIN.read)
 
-    config = YAML.load_file(configpath)
-
-    return config['servers'][server]
+def make_error (msg)
+  error = {
+    "_error" => {
+      "kind" => "execution error",
+      "msg"  => msg,
+      "details" => {}
+    }
+  }
+  return error
 end
 
-config = load_config
+def load_config (params)
+  server = params['servername'] || 'default'
+  configpath = params['configpath'] || '/etc/nutanix.yaml'
+  
+  config = YAML.load_file(configpath)
+
+  return config['servers'][server]
+end
+
+config = load_config(params)
 
 server = config['hostname']
 port = config['port']
@@ -49,52 +62,54 @@ port = config['port']
 username = config['username']
 password = config['password']
 
+# our universal extra features loader
+
+additional_params = params['additional_params'] || {}
+
 # end copy of common methods
 
 
-
-
-# this is the hash we're constructing from the variables passed by the end user
-# we could add some sane defaults here, don't know if API will merge fields not represented
-
 # bash testing shortcuts
-# export PT_vm_name=testing-$(date "+%Y-%m-%d-%S")
-# export PT_memory_mb=1024
-# export PT_subnet_uuid=9d271b40-38d4-4cf1-b4f0-e5ac16b853e7
-# export PT_num_vcpus=1
-# export PT_num_cores_per_vcpu=1
-
-# should switch this to much smarter mapping / kv thing to deal with json passing instead of env
+# cat examples/test_vm.json | ./create_vm.rb
 
 new_vm = {
-    "api_version"=> "3.0",
-    "metadata" => {
-        "kind"=> "vm"
-    },
-    "spec" => {
-        "name" => "#{ENV['PT_vm_name']}",
-        "resources" => {
-            "memory_size_mib" => ENV['PT_memory_mb'].to_i,
-            "nic_list" => [
-                {
-                    "subnet_reference" => {
-                        "kind" => "subnet",
-                        "uuid" => "#{ENV['PT_subnet_uuid']}"
-                    }
-                }
-            ],
-            "num_sockets" => ENV['PT_num_vcpus'].to_i,
-            "num_vcpus_per_socket" => ENV['PT_num_cores_per_vcpu'].to_i,
-            "power_state" => "ON"
+  "api_version"=> "3.0",
+  "metadata" => {
+    "kind"=> "vm"
+  },
+  "spec" => {
+    "name" => "#{params['vm_name']}",
+    "resources" => {
+      "memory_size_mib" => params['memory_mb'].to_i,
+      "nic_list" => [
+        {
+        "subnet_reference" => {
+          "kind" => "subnet",
+          "uuid" => "#{params['subnet_uuid']}"
+          }
+        }],
+      "num_sockets" => params['num_vcpus'].to_i,
+      "num_vcpus_per_socket" => params['num_cores_per_vcpu'].to_i,
+      "power_state" => "ON",
+      "guest_customization"=> {
+        "cloud_init" => {
+          "user_data" => "#{params['userdata']}"
         }
+      }
     }
+  }
 }
 
-puts "Attempting to create #{ENV['PT_vm_name']}"
+# here we want to merge whatever additional params were provided with the specific values
+# more specific overrides generic
+
+vm_payload = additional_params.merge(new_vm)
+
+puts "Attempting to create #{params['vm_name']}"
 
 request = Net::HTTP::Post.new("https://#{server}:#{port}/api/nutanix/v3/vms", 'Content-Type' => 'application/json')
 request.basic_auth username, password
-request.body = new_vm.to_json
+request.body = vm_payload.to_json
 
 client = Net::HTTP.new(server, port)
 client.use_ssl = true
@@ -102,15 +117,13 @@ client.verify_mode = OpenSSL::SSL::VERIFY_NONE
 
 response = client.request(request)
 
-#puts response.code
-#puts response.body['status']
-
 if response.code == '202'
-    puts 'Request Accepted'
+  puts 'Request Accepted'
 end
 
 response_body = JSON[response.body]
 
+vm_uuid = response_body['metadata']['uuid']
 task_uuid = response_body['status']['execution_context']['task_uuid']
 
 task = Net::HTTP::Get.new("https://#{server}:#{port}/api/nutanix/v3/tasks/#{task_uuid}")
@@ -123,11 +136,18 @@ task_status = JSON[task_response.body]['status']
 puts "VM creation is #{task_status}"
 
 while task_status != 'SUCCEEDED'
-    puts "VM creation is still #{task_status}"
-    sleep(5)
-    task_response = client.request(task)
-    task_status = JSON[task_response.body]['status']
+  puts "VM creation is still #{task_status}"
+  sleep(5)
+  task_response = client.request(task)
+  task_status = JSON[task_response.body]['status']
 end
 
-puts "#{ENV['PT_vm_name']} has been created!"
-## do a while loop here to wait for the VM to be provisioned
+results = {
+  "success" => "True",
+  "details" => {
+    "uuid" => "#{vm_uuid}",
+    "name" => "#{params['vm_name']}"
+  }
+}
+
+puts results.to_json

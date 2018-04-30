@@ -1,0 +1,19 @@
+{
+  "servername": "default",
+  "configpath": "/etc/nutanix.yaml",
+  "vm_name": "testing-provisioning",
+  "memory_mb": 1024,
+  "subnet_uuid": "9d271b40-38d4-4cf1-b4f0-e5ac16b853e7",
+  "num_vcpus": 1,
+  "num_cores_per_vcpu": 1,
+  "userdata": "I2Nsb3VkLWNvbmZpZwpob3N0bmFtZTogdGVzdGluZy1mb28KcnVuY21kOgogIC0gZWNobyAnaGVsbG8gd29ybGQnID4gL3RtcC9oZWxsby50eHQ=",
+  "additional_params": {
+    "metadata": {
+      "kind": "vm",
+      "owner_reference": {
+        "kind": "user",
+        "name": "testing"
+      }
+    }
+  }
+}

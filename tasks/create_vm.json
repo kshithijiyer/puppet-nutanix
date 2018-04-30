@@ -1,6 +1,7 @@
 {
   "puppet_task_version": 1,
   "supports_noop": false,
+  "input_method": "stdin",
   "description": "Creates a VM in the Nutanix system, assumes the host it is run on already has been configured for authentication",
   "parameters": {
     "servername": {
@@ -32,16 +33,20 @@
       "type": "Integer"
     },
     "userdata": {
-      "description": "Userdata",
+      "description": "Userdata Base64 encoded",
       "type": "Optional[String[]]"
     },
     "subnet_uuid": {
       "description": "Subnet UUID in Nutanix Environment",
       "type": "String[]"
     },
-    "userdata_path": {
-      "description": "Userdata Path",
-      "type": "Optional[String[]]"
+    "creation_timeout": {
+      "description": "Number of seconds to timeout on creation failure (30 by default)",
+      "type": "Optional[Integer[]]"
+    },
+    "additional_params": {
+      "description": "Additional options and values to pass - assumes you are passing data structured conforming to Nutanix V3 api http://developer.nutanix.com/reference/prism_central/v3/#vms-post (duplicate data in this hash is override by more specific task parameters)",
+      "type": "Optional[Hash[]]"
     }
   }
 }

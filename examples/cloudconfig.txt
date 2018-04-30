@@ -1,0 +1,4 @@
+#cloud-config
+hostname: testing-foo
+runcmd:
+  - echo 'hello world' > /tmp/hello.txt
