@@ -1,7 +1,20 @@
 {
   "puppet_task_version": 1,
   "supports_noop": false,
-  "description": "A short description of this task",
+  "input_method": "stdin",
+  "description": "Lists Nutanix VMs",
   "parameters": {
+    "servername": {
+      "description": "Which Nutanix server to connect to (named in config file)",
+      "type": "Optional[Pattern[/^([A-Za-z0-9]?)+$/]]"
+    },
+    "configpath": {
+      "description": "Path to config file on disk, defaults to /etc/nutanix.yaml",
+      "type": "Optional[Pattern[/^([A-Za-z0-9._-]+/?)+$/]]"
+    },
+    "uuid": {
+      "description": "UUID of VM to delete",
+      "type": "String[1]"
+    }
   }
 }

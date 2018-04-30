@@ -1,5 +1,5 @@
 #!/opt/puppetlabs/puppet/bin/ruby
-# Puppet Task Name: 
+# Puppet Task Name: Create VM
 #
 # This is where you put the shell code for your task.
 #
@@ -7,22 +7,6 @@
 # adapt an existing Python, PowerShell, Ruby, etc. script. Learn more at:
 # http://puppet.com/docs/bolt/latest/converting_scripts_to_tasks.html 
 # 
-# Puppet tasks make it easy for you to enable others to use your script. Tasks 
-# describe what it does, explains parameters and which are required or optional, 
-# as well as validates parameter type. For examples, if parameter "instances" 
-# must be an integer and the optional "datacenter" parameter must be one of 
-# portland, sydney, belfast or singapore then the .json file 
-# would include:
-#   "parameters": {
-#     "instances": {
-#       "description": "Number of instances to create",
-#       "type": "Integer"
-#     }, 
-#     "datacenter": {
-#       "description": "Datacenter where instances will be created",
-#       "type": "Enum[portland, sydney, belfast, singapore]"
-#     }
-#   }
 # Learn more at: https://puppet.com/docs/bolt/latest/task_metadata.html
 #
 
@@ -32,16 +16,29 @@ require 'yaml'
 require 'json'
 require 'net/https'
 
-def load_config 
-    server = ENV['PT_servername'] || 'default'
-    configpath = ENV['PT_configpath'] || '/etc/nutanix.yaml'
+params = JSON.parse(STDIN.read)
 
-    config = YAML.load_file(configpath)
-
-    return config['servers'][server]
+def make_error (msg)
+  error = {
+    "_error" => {
+      "kind" => "nutanix-nutanix/error",
+      "msg"  => msg,
+      "details" => {}
+    }
+  }
+  return error
 end
 
-config = load_config
+def load_config (params)
+  server = params['servername'] || 'default'
+  configpath = params['configpath'] || '/etc/nutanix.yaml'
+  
+  config = YAML.load_file(configpath)
+
+  return config['servers'][server]
+end
+
+config = load_config(params)
 
 server = config['hostname']
 port = config['port']
@@ -51,16 +48,20 @@ password = config['password']
 
 # end copy of common methods
 
+default_payload = { "kind" => "vm", "length" => 5}
 
-message = { "kind" => "vm" }
+payload = default_payload.merge(params)
+
+payload.delete('servername')
+payload.delete('configpath')
+
+puts payload.to_json
 
 #https://docs.ruby-lang.org/en/2.0.0/Net/HTTP.html
 
-puts message.to_json
-
 request = Net::HTTP::Post.new("https://#{server}:#{port}/api/nutanix/v3/vms/list", 'Content-Type' => 'application/json')
 request.basic_auth username, password
-request.body = message.to_json
+request.body = payload.to_json
 
 client = Net::HTTP.new(server, port)
 client.use_ssl = true
@@ -68,6 +69,9 @@ client.verify_mode = OpenSSL::SSL::VERIFY_NONE
 
 response = client.request(request)
 
-puts response.inspect
+result = {}
 
-puts response.body
+result['response'] = response.code
+result['result'] = JSON.parse(response.body)
+
+puts result.to_json

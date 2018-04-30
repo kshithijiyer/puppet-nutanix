@@ -1,12 +1,7 @@
 
-# nutanix
+# Nutanix
 
-Welcome to your new module. A short overview of the generated parts can be found in the PDK documentation at https://puppet.com/pdk/latest/pdk_generating_modules.html .
-
-The README template below provides a starting point with details about what information to include in your README.
-
-
-
+Welcome to the Nutanix Puppet module
 
 
 
@@ -25,35 +20,37 @@ The README template below provides a starting point with details about what info
 
 ## Description
 
-Start with a one- or two-sentence summary of what the module does and/or what problem it solves. This is your 30-second elevator pitch for your module. Consider including OS/Puppet version it works with.
+This is currently a Task centric module for Nutanix. It allows for creation of VMs in an existing nutanix infrastructure.
 
-You can give more descriptive information in a second paragraph. This paragraph should answer the questions: "What does this module *do*?" and "Why would I use it?" If your module has a range of functionality (installation, configuration, management, etc.), this is the time to mention it.
+This module will expand over time to include full Puppet Types/Providers, however this is a 0.1.X release so there is a lot of changes to come. This requires a Nutanix build of 5.5 or later, since was built using the V3 API calls.
 
 ## Setup
 
-### What nutanix affects **OPTIONAL**
+### Setup Requirements
 
-If it's obvious what your module touches, you can skip this section. For example, folks can probably figure out that your mysql_instance module affects their MySQL instances.
+This module assumes you've configured a provisioning account for your Nutanix system and have a VM with the credentials on it that can contact the Nutanix systems. For a small installation or just testing this could be the system running the tasks from (such as a Puppet Enterprise Master).
 
-If there's more that they should know about, though, this is the place to mention:
+Create a file called /etc/nutanix.yaml with the following format:
 
-* Files, packages, services, or operations that the module will alter, impact, or execute.
-* Dependencies that your module automatically installs.
-* Warnings or other important notices.
+```yaml
+---
+servers:
+  default:
+    hostname: 'hostname'
+    port: 'port'
+    username: 'username'
+    password: 'password'
+```
 
-### Setup Requirements **OPTIONAL**
-
-If your module requires anything extra before setting up (pluginsync enabled, another module, etc.), mention it here.
-
-If your most recent release breaks compatibility or requires particular steps for upgrading, you might want to include an additional "Upgrading" section here.
+One can specify multiple Nutanix installations in a single file, but default is assumed and will be used if no other one is specified in a task.
 
 ### Beginning with nutanix
 
-The very basic steps needed for a user to get the module up and running. This can include setup steps, if necessary, or it can be an example of the most basic use of the module.
+Once the /etc/nutanix.yaml has been created, you can verify the connectivity between the task running host and the Nutanix system by running the list_vms.rb task. It loads the nutanix.yaml file and interacts with the Nutanix API just as the other tasks do.
 
 ## Usage
 
-This section is where you describe how to customize, configure, and do the fancy stuff with your module here. It's especially helpful if you include usage examples and code samples for doing things with your module.
+For creating a VM in the nutanix system, there are two ways to run this task: as a command line / bolt task, or via Puppet Enterprise console. In either case, one will need to be familiar with the Nutanix platform to perform these commands.
 
 ## Reference
 
@@ -70,7 +67,7 @@ Users need a complete list of your module's classes, types, defined types provid
 
 ## Limitations
 
-This is where you list OS compatibility, version compatibility, etc. If there are Known Issues, you might want to include them under their own heading here.
+This task has only been tested on POSIX platforms, and relies on the Ruby build that ships with the Puppet Agent being present. Easiest way to do that is to run this task from a machine managed by Puppet.
 
 ## Development
 

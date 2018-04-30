@@ -1,0 +1,40 @@
+{
+  "puppet_task_version": 1,
+  "supports_noop": false,
+  "input_method": "stdin",
+  "description": "Lists Nutanix VMs",
+  "parameters": {
+    "servername": {
+      "description": "Which Nutanix server to connect to (named in config file)",
+      "type": "Optional[Pattern[/^([A-Za-z0-9]?)+$/]]"
+    },
+    "configpath": {
+      "description": "Path to config file on disk, defaults to /etc/nutanix.yaml",
+      "type": "Optional[Pattern[/^([A-Za-z0-9._-]+/?)+$/]]"
+    },
+    "kind": {
+      "description": "The kind of element to search (vm is default and already supplied)",
+      "type": "Optional[String[]]"
+    },
+    "filter": {
+      "description": "The filter in FIQL syntax used for the results",
+      "type": "Optional[String[]]"
+    },
+    "sort_order": {
+      "description": "The sort order in which results are returned",
+      "type": "Optional[String[]]"
+    },
+    "sort_attribute": {
+      "description": "The attribute to perform sort on",
+      "type": "Optional[String[]]"
+    },
+    "offset": {
+      "description": "Offset from the start of the entity list",
+      "type": "Optional[Integer[]]"
+    },
+    "length": {
+      "description": "The number of records to retrieve relative to the offset",
+      "type": "Optional[Integer[]]"
+    }
+  }
+}
