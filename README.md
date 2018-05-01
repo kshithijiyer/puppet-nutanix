@@ -3,7 +3,7 @@
 
 Welcome to the Nutanix Puppet module
 
-
+[![Waffle.io - Columns and their card count](https://badge.waffle.io/a16e2b7714f029510d38a972e7d351fbf93807b6a6ce9a2b562487e44126dffe.svg?columns=all)](https://waffle.io/nutanix/puppet-nutanix)
 
 
 #### Table of Contents
