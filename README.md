@@ -1,9 +1,24 @@
+# puppet-nutanix
 
-# Nutanix
+Puppet module to integrate with Nutanix Enterprise Cloud.
 
-Welcome to the Nutanix Puppet module
+NOTE: puppet-nutanix is currently tech preview as of 6 June 2018. See "Current Development Status" below.
+
+#### Project, Build, Quality Status
 
 [![Waffle.io - Columns and their card count](https://badge.waffle.io/a16e2b7714f029510d38a972e7d351fbf93807b6a6ce9a2b562487e44126dffe.svg?columns=all)](https://waffle.io/nutanix/puppet-nutanix)
+
+[![Maintainability](https://api.codeclimate.com/v1/badges/3c81080d72186e9d119f/maintainability)](https://codeclimate.com/github/nutanix/puppet-nutanix/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/3c81080d72186e9d119f/test_coverage)](https://codeclimate.com/github/nutanix/puppet-nutanix/test_coverage)
+
+| Master                                                                                                                                                          | Develop                                                                                                                                                           |
+| --------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [![Build Status](https://travis-ci.org/nutanix/puppet-nutanix.svg?branch=master)](https://travis-ci.org/nutanix/puppet-nutanix) | (TBD) |
+
+
+
+
+
+
 
 
 #### Table of Contents
