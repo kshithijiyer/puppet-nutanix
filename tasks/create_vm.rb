@@ -34,7 +34,7 @@ require 'net/https'
 
 params = JSON.parse(STDIN.read)
 
-def make_error (msg)
+def make_error(msg)
   error = {
     '_error' => {
       'kind' => 'execution error',
@@ -45,7 +45,7 @@ def make_error (msg)
   return error
 end
 
-def load_config (params)
+def load_config(params)
   server = params['servername'] || 'default'
   configpath = params['configpath'] || '/etc/nutanix.yaml'
   
@@ -84,7 +84,7 @@ new_vm = {
         {
         'subnet_reference' => {
           'kind' => 'subnet',
-          'uuid' => '#{params['subnet_uuid']}'
+          'uuid' => "#{params['subnet_uuid']}"
           }
         }],
       'num_sockets' => params['num_vcpus'].to_i,
