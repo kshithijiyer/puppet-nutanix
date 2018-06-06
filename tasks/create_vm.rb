@@ -3,24 +3,24 @@
 #
 # This is where you put the shell code for your task.
 #
-# You can write Puppet tasks in any language you want and it's easy to 
+# You can write Puppet tasks in any language you want and it's easy to
 # adapt an existing Python, PowerShell, Ruby, etc. script. Learn more at:
 # http://puppet.com/docs/bolt/latest/converting_scripts_to_tasks.html 
 # 
 # Puppet tasks make it easy for you to enable others to use your script. Tasks 
 # describe what it does, explains parameters and which are required or optional, 
-# as well as validates parameter type. For examples, if parameter "instances" 
-# must be an integer and the optional "datacenter" parameter must be one of 
+# as well as validates parameter type. For examples, if parameter 'instances' 
+# must be an integer and the optional 'datacenter' parameter must be one of 
 # portland, sydney, belfast or singapore then the .json file 
 # would include:
-#   "parameters": {
-#     "instances": {
-#       "description": "Number of instances to create",
-#       "type": "Integer"
+#   'parameters': {
+#     'instances': {
+#       'description': 'Number of instances to create',
+#       'type': 'Integer'
 #     }, 
-#     "datacenter": {
-#       "description": "Datacenter where instances will be created",
-#       "type": "Enum[portland, sydney, belfast, singapore]"
+#     'datacenter': {
+#       'description': 'Datacenter where instances will be created',
+#       'type': 'Enum[portland, sydney, belfast, singapore]'
 #     }
 #   }
 # Learn more at: https://puppet.com/docs/bolt/latest/task_metadata.html
@@ -36,10 +36,10 @@ params = JSON.parse(STDIN.read)
 
 def make_error (msg)
   error = {
-    "_error" => {
-      "kind" => "execution error",
-      "msg"  => msg,
-      "details" => {}
+    '_error' => {
+      'kind' => 'execution error',
+      'msg'  => msg,
+      'details' => {}
     }
   }
   return error
@@ -68,32 +68,31 @@ additional_params = params['additional_params'] || {}
 
 # end copy of common methods
 
-
 # bash testing shortcuts
 # cat examples/test_vm.json | ./create_vm.rb
 
 new_vm = {
-  "api_version"=> "3.0",
-  "metadata" => {
-    "kind"=> "vm"
+  'api_version' => '3.1',
+  'metadata' => {
+    'kind'=> 'vm'
   },
-  "spec" => {
-    "name" => "#{params['vm_name']}",
-    "resources" => {
-      "memory_size_mib" => params['memory_mb'].to_i,
-      "nic_list" => [
+  'spec' => {
+    'name' => "#{params['vm_name']}",
+    'resources' => {
+      'memory_size_mib' => params['memory_mb'].to_i,
+      'nic_list' => [
         {
-        "subnet_reference" => {
-          "kind" => "subnet",
-          "uuid" => "#{params['subnet_uuid']}"
+        'subnet_reference' => {
+          'kind' => 'subnet',
+          'uuid' => '#{params['subnet_uuid']}'
           }
         }],
-      "num_sockets" => params['num_vcpus'].to_i,
-      "num_vcpus_per_socket" => params['num_cores_per_vcpu'].to_i,
-      "power_state" => "ON",
-      "guest_customization"=> {
-        "cloud_init" => {
-          "user_data" => "#{params['userdata']}"
+      'num_sockets' => params['num_vcpus'].to_i,
+      'num_vcpus_per_socket' => params['num_cores_per_vcpu'].to_i,
+      'power_state' => 'ON',
+      'guest_customization'=> {
+        'cloud_init' => {
+          'user_data' => "#{params['userdata']}"
         }
       }
     }
@@ -107,7 +106,7 @@ vm_payload = additional_params.merge(new_vm)
 
 puts "Attempting to create #{params['vm_name']}"
 
-request = Net::HTTP::Post.new("https://#{server}:#{port}/api/nutanix/v3/vms", 'Content-Type' => 'application/json')
+request = Net::HTTP::Post.new("https://#{server}:#{port}/api/nutanix/v3/vms", 'Content-Type' => "application/json")
 request.basic_auth username, password
 request.body = vm_payload.to_json
 
@@ -143,10 +142,10 @@ while task_status != 'SUCCEEDED'
 end
 
 results = {
-  "success" => "True",
-  "details" => {
-    "uuid" => "#{vm_uuid}",
-    "name" => "#{params['vm_name']}"
+  'success' => 'True',
+  'details' => {
+    'uuid' => "#{vm_uuid}",
+    'name' => "#{params['vm_name']}"
   }
 }
 
