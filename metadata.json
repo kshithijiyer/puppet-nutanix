@@ -2,9 +2,14 @@
   "name": "nutanix-nutanix",
   "version": "0.1.0",
   "author": "nutanix",
-  "summary": "",
+  "summary": "A Puppet module to manage Nutanix Enterprise Cloud resources",
+  "description": "A Puppet module to manage Nutanix Enterprise Cloud resources",
   "license": "MIT",
-  "source": "",
+  "source": "https://github.com/nutanix/puppet-nutanix",
+  "project_page": "https://github.com/nutanix/puppet-nutanix",
+  "issues_url": "https://github.com/nutanix/puppet-nutanix/issues",
+  "data_provider": null,
+
   "dependencies": [
 
   ],
@@ -28,12 +33,6 @@
       ]
     },
     {
-      "operatingsystem": "Scientific",
-      "operatingsystemrelease": [
-        "7"
-      ]
-    },
-    {
       "operatingsystem": "Debian",
       "operatingsystemrelease": [
         "8"
@@ -42,7 +41,9 @@
     {
       "operatingsystem": "Ubuntu",
       "operatingsystemrelease": [
-        "16.04"
+        "16.04",
+        "16.10",
+        "18.04"
       ]
     }
   ],

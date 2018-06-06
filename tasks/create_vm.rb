@@ -1,5 +1,6 @@
 #!/opt/puppetlabs/puppet/bin/ruby
 # frozen_string_literal: true
+#
 # Puppet Task Name:
 #
 # This is where you put the shell code for your task.
@@ -85,7 +86,7 @@ new_vm = {
         {
         'subnet_reference' => {
           'kind' => 'subnet',
-          'uuid' => params['subnet_uuid'].to_s}
+          'uuid' => params['subnet_uuid'].to_s,
           }
         }],
       'num_sockets' => params['num_vcpus'].to_i,
