@@ -1,4 +1,5 @@
 #!/opt/puppetlabs/puppet/bin/ruby
+# frozen_string_literal: true
 # Puppet Task Name:
 #
 # This is where you put the shell code for your task.
@@ -40,14 +41,14 @@ def make_error(msg)
       'kind' => 'execution error',
       'msg'  => msg,
       'details' => {},
-    }
+    },
   }
   return error
 end
 
 def load_config(params)
   server = params['servername'] || 'default'
-  configpath = params['configpath'] || '/etc/nutanix.yaml'
+  configpath = params['configpath'] || "/etc/nutanix.yaml"
   
   config = YAML.load_file(configpath)
 
@@ -77,14 +78,14 @@ new_vm = {
     'kind' => 'vm'
   },
   'spec' => {
-    'name' => "#{params['vm_name']}",
+    'name' => params['vm_name'].to_s,
     'resources' => {
       'memory_size_mib' => params['memory_mb'].to_i,
       'nic_list' => [
         {
         'subnet_reference' => {
           'kind' => 'subnet',
-          'uuid' => "#{params['subnet_uuid']}"
+          'uuid' => params['subnet_uuid'].to_s}
           }
         }],
       'num_sockets' => params['num_vcpus'].to_i,

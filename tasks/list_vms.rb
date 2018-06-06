@@ -1,4 +1,5 @@
 #!/opt/puppetlabs/puppet/bin/ruby
+# frozen_string_literal: true
 # Puppet Task Name: Create VM
 #
 # This is where you put the shell code for your task.
@@ -20,10 +21,10 @@ params = JSON.parse(STDIN.read)
 
 def make_error (msg)
   error = {
-    "_error" => {
-      "kind" => "nutanix-nutanix/error",
-      "msg"  => msg,
-      "details" => {}
+    '_error' => {
+      'kind' => "nutanix-nutanix/error",
+      'msg'  => msg,
+      'details' => {}
     }
   }
   return error
@@ -31,7 +32,7 @@ end
 
 def load_config (params)
   server = params['servername'] || 'default'
-  configpath = params['configpath'] || '/etc/nutanix.yaml'
+  configpath = params['configpath'] || "/etc/nutanix.yaml"
   
   config = YAML.load_file(configpath)
 
@@ -48,7 +49,7 @@ password = config['password']
 
 # end copy of common methods
 
-default_payload = { "kind" => "vm", "length" => 5}
+default_payload = { 'kind' => 'vm', 'length' => 5}
 
 payload = default_payload.merge(params)
 
@@ -59,7 +60,7 @@ puts payload.to_json
 
 #https://docs.ruby-lang.org/en/2.0.0/Net/HTTP.html
 
-request = Net::HTTP::Post.new("https://#{server}:#{port}/api/nutanix/v3/vms/list", 'Content-Type' => 'application/json')
+request = Net::HTTP::Post.new("https://#{server}:#{port}/api/nutanix/v3/vms/list", 'Content-Type' => "application/json")
 request.basic_auth username, password
 request.body = payload.to_json
 

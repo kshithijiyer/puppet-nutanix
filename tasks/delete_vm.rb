@@ -1,4 +1,5 @@
 #!/opt/puppetlabs/puppet/bin/ruby
+# frozen_string_literal: true
 # Puppet Task Name:
 #
 # This is where you put the shell code for your task.
