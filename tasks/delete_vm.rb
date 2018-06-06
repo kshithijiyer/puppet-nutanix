@@ -39,7 +39,7 @@ def make_error(msg)
     '_error' => {
       'kind' => 'execution error',
       'msg'  => msg,
-      'details' => {}
+      'details' => {},
     }
   }
   return error
@@ -82,7 +82,7 @@ else
   results['_error'] = {
     'kind' => 'execution error',
     'msg'  => response.code,
-    'details' => JSON.parse(response.body)
+    'details' => JSON.parse(response.body),
   }
 end
 
