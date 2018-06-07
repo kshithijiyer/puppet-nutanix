@@ -1,6 +1,6 @@
 #!/opt/puppetlabs/puppet/bin/ruby
 # frozen_string_literal: true
-#
+
 # Puppet Task Name:
 #
 # This is where you put the shell code for your task.
@@ -49,8 +49,8 @@ end
 
 def load_config(params)
   server = params['servername'] || 'default'
-  configpath = params['configpath'] || "/etc/nutanix.yaml"
-  
+  configpath = params['configpath'] || '/etc/nutanix.yaml'
+
   config = YAML.load_file(configpath)
 
   return config['servers'][server]
@@ -76,7 +76,7 @@ additional_params = params['additional_params'] || {}
 new_vm = {
   'api_version' => '3.1',
   'metadata' => {
-    'kind' => 'vm'
+    'kind' => 'vm',
   },
   'spec' => {
     'name' => params['vm_name'].to_s,
@@ -84,21 +84,22 @@ new_vm = {
       'memory_size_mib' => params['memory_mb'].to_i,
       'nic_list' => [
         {
-        'subnet_reference' => {
-          'kind' => 'subnet',
-          'uuid' => params['subnet_uuid'].to_s,
-          }
-        }],
+          'subnet_reference' => {
+            'kind' => 'subnet',
+            'uuid' => params['subnet_uuid'].to_s,
+          },
+        },
+      ],
       'num_sockets' => params['num_vcpus'].to_i,
       'num_vcpus_per_socket' => params['num_cores_per_vcpu'].to_i,
       'power_state' => 'ON',
-      'guest_customization'=> {
+      'guest_customization' => {
         'cloud_init' => {
-          'user_data' => "#{params['userdata']}"
-        }
-      }
-    }
-  }
+          'user_data' => params['userdata'].to_s,
+        },
+      },
+    },
+  },
 }
 
 # here we want to merge whatever additional params were provided with the specific values
@@ -108,7 +109,7 @@ vm_payload = additional_params.merge(new_vm)
 
 puts "Attempting to create #{params['vm_name']}"
 
-request = Net::HTTP::Post.new("https://#{server}:#{port}/api/nutanix/v3/vms", 'Content-Type' => "application/json")
+request = Net::HTTP::Post.new("https://#{server}:#{port}/api/nutanix/v3/vms", 'Content-Type' => 'application/json')
 request.basic_auth username, password
 request.body = vm_payload.to_json
 
@@ -146,9 +147,9 @@ end
 results = {
   'success' => 'True',
   'details' => {
-    'uuid' => "#{vm_uuid}",
-    'name' => "#{params['vm_name']}",
-  }
+    'uuid' => vm_uuid.to_s,
+    'name' => params['vm_name'].to_s,
+  },
 }
 
 puts results.to_json
