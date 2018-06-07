@@ -1,7 +1,7 @@
 #!/opt/puppetlabs/puppet/bin/ruby
 # frozen_string_literal: true
-#
-# Puppet Task Name:
+
+# Puppet Task Name: Delete VM
 #
 # This is where you put the shell code for your task.
 #
@@ -42,14 +42,14 @@ def make_error(msg)
       'kind' => 'execution error',
       'msg'  => msg,
       'details' => {},
-    }
+    },
   }
   return error
 end
 
 def load_config(params)
   server = params['servername'] || 'default'
-  configpath = params['configpath'] || "/etc/nutanix.yaml"
+  configpath = params['configpath'] || '/etc/nutanix.yaml'
 
   config = YAML.load_file(configpath)
 

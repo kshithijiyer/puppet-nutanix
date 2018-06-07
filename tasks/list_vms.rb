@@ -1,14 +1,14 @@
 #!/opt/puppetlabs/puppet/bin/ruby
 # frozen_string_literal: true
-#
-# Puppet Task Name: Create VM
+
+# Puppet Task Name: List VM
 #
 # This is where you put the shell code for your task.
 #
 # You can write Puppet tasks in any language you want and it's easy to 
 # adapt an existing Python, PowerShell, Ruby, etc. script. Learn more at:
-# http://puppet.com/docs/bolt/latest/converting_scripts_to_tasks.html 
-# 
+# http://puppet.com/docs/bolt/latest/converting_scripts_to_tasks.html
+#
 # Learn more at: https://puppet.com/docs/bolt/latest/task_metadata.html
 #
 
@@ -20,21 +20,21 @@ require 'net/https'
 
 params = JSON.parse(STDIN.read)
 
-def make_error (msg)
+def make_error(msg)
   error = {
     '_error' => {
-      'kind' => "nutanix-nutanix/error",
+      'kind' => 'nutanix-nutanix/error',
       'msg'  => msg,
-      'details' => {}
-    }
+      'details' => {},
+    },
   }
   return error
 end
 
-def load_config (params)
+def load_config(params)
   server = params['servername'] || 'default'
-  configpath = params['configpath'] || "/etc/nutanix.yaml"
-  
+  configpath = params['configpath'] || '/etc/nutanix.yaml'
+
   config = YAML.load_file(configpath)
 
   return config['servers'][server]
@@ -50,7 +50,7 @@ password = config['password']
 
 # end copy of common methods
 
-default_payload = { 'kind' => 'vm', 'length' => 5}
+default_payload = { 'kind' => 'vm', 'length' => 5 }
 
 payload = default_payload.merge(params)
 
@@ -59,9 +59,9 @@ payload.delete('configpath')
 
 puts payload.to_json
 
-#https://docs.ruby-lang.org/en/2.0.0/Net/HTTP.html
+# https://docs.ruby-lang.org/en/2.0.0/Net/HTTP.html
 
-request = Net::HTTP::Post.new("https://#{server}:#{port}/api/nutanix/v3/vms/list", 'Content-Type' => "application/json")
+request = Net::HTTP::Post.new("https://#{server}:#{port}/api/nutanix/v3/vms/list", 'Content-Type' => 'application/json')
 request.basic_auth username, password
 request.body = payload.to_json
 

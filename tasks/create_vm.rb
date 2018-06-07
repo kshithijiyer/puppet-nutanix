@@ -1,7 +1,7 @@
 #!/opt/puppetlabs/puppet/bin/ruby
 # frozen_string_literal: true
 
-# Puppet Task Name:
+# Puppet Task Name: Create VM
 #
 # This is where you put the shell code for your task.
 #
