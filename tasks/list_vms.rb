@@ -5,7 +5,7 @@
 #
 # This is where you put the shell code for your task.
 #
-# You can write Puppet tasks in any language you want and it's easy to 
+# You can write Puppet tasks in any language you want and it's easy to
 # adapt an existing Python, PowerShell, Ruby, etc. script. Learn more at:
 # http://puppet.com/docs/bolt/latest/converting_scripts_to_tasks.html
 #

@@ -66,7 +66,7 @@ password = config['password']
 
 # end copy of common methods
 
-request = Net::HTTP::Delete.new("https://#{server}:#{port}/api/nutanix/v3/vms/#{params['uuid']}", 'Content-Type' => "application/json")
+request = Net::HTTP::Delete.new("https://#{server}:#{port}/api/nutanix/v3/vms/#{params['uuid']}", 'Content-Type' => 'application/json')
 request.basic_auth username, password
 
 client = Net::HTTP.new(server, port)
