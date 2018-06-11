@@ -5,9 +5,8 @@ language: ruby
 cache: bundler
 before_install:
   - bundle -v
-  - rm Gemfile.lock || true
+  - rm -f Gemfile.lock
   - gem update --system
-  - gem update bundler
   - gem --version
   - bundle -v
 script:
@@ -16,7 +15,8 @@ bundler_args: --without system_tests
 rvm:
   - 2.4.4
 env:
-  - PUPPET_GEM_VERSION="~> 5.0" CHECK=spec
+  global:
+    - BEAKER_PUPPET_COLLECTION=puppet5 PUPPET_GEM_VERSION="~> 5.0"
 stages:
   - validate
   - build
@@ -24,19 +24,28 @@ matrix:
   fast_finish: true
   include:
     - stage: validate
-      env: CHECK=rubocop
+      env: CHECK="syntax lint metadata_lint check:symlinks check:git_ignore check:dot_underscore check:test_file rubocop"
     - stage: validate
-      env: CHECK="syntax lint"
-    - stage: validate
-      env: CHECK=metadata_lint
-    - stage: validate
-      env: CHECK=spec
-    - stage: validate
-      env: PUPPET_GEM_VERSION="~> 5.0" CHECK=spec
+      env: CHECK=parallel_spec
+    - stage: build
+      dist: trusty
+      env: PUPPET_INSTALL_TYPE=agent BEAKER_debug=true BEAKER_PUPPET_COLLECTION=puppet5 BEAKER_set=docker/centos-7
+      rvm: 2.4.4
+      script: bundle exec rake beaker
+      services: docker
+      sudo: required
+    - stage: build
+      dist: trusty
+      env: PUPPET_INSTALL_TYPE=agent BEAKER_debug=true BEAKER_PUPPET_COLLECTION=puppet5 BEAKER_set=docker/ubuntu-18.04
+      rvm: 2.4.4
+      script: bundle exec rake beaker
+      services: docker
+      sudo: required
 branches:
   only:
     - master
     - /^v\d/
+    - release
 notifications:
   email: false
 deploy:
