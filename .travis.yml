@@ -13,7 +13,7 @@ script:
   - 'bundle exec rake $CHECK'
 bundler_args: --without system_tests
 rvm:
-  - 2.4.4
+  - 2.4
 env:
   global:
     - BEAKER_PUPPET_COLLECTION=puppet5 PUPPET_GEM_VERSION="~> 5.0"
@@ -40,7 +40,14 @@ jobs:
     - stage: validate
       env: PUPPET_GEM_VERSION="~> 5.0" CHECK=spec
     - stage: validate
-      env: CHECK="check:symlinks check:git_ignore check:dot_underscore check:test_file"
+      env: CHECK="check:symlinks"
+    - stage: validate
+      env: CHECK="check:git_ignore"
+    - stage: validate
+      env: CHECK="check:dot_underscore"
+    - stage: validate
+      env: CHECK="check:test_file"
+
 # matrix:
 #   fast_finish: true
 #   include:

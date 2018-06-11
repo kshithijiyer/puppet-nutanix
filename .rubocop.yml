@@ -113,3 +113,5 @@
     Enabled: false
   Style/SymbolProc:
     Enabled: false
+  Style/RedundantReturn: # HACK: Overriding this until Chris B gives this a look
+    Enabled: false
