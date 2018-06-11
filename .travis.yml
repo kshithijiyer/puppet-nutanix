@@ -3,12 +3,12 @@ sudo: false
 dist: trusty
 language: ruby
 cache: bundler
-before_install:
-  - bundle -v
-  - rm -f Gemfile.lock
-  - gem update --system
-  - gem --version
-  - bundle -v
+# before_install:
+#   - bundle -v
+#   - rm -f Gemfile.lock
+#   - gem update --system
+#   - gem --version
+#   - bundle -v
 script:
   - 'bundle exec rake $CHECK'
 bundler_args: --without system_tests
@@ -35,8 +35,6 @@ jobs:
       env: CHECK="lint"
     - stage: validate
       env: CHECK=metadata_lint
-    - stage: validate
-      env: CHECK=spec
     - stage: validate
       env: PUPPET_GEM_VERSION="~> 5.0" CHECK=spec
     - stage: validate
