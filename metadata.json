@@ -2,13 +2,13 @@
   "name": "nutanix-nutanix_enterprise_cloud",
   "version": "0.1.0",
   "author": "nutanix",
-  "license": "MIT",
   "summary": "A Puppet module to manage Nutanix Enterprise Cloud resources",
-  "description": "A Puppet module to manage Nutanix Enterprise Cloud resources",
+  "license": "MIT",
   "source": "https://github.com/nutanix/puppet-nutanix",
   "project_page": "https://github.com/nutanix/puppet-nutanix",
   "issues_url": "https://github.com/nutanix/puppet-nutanix/issues",
   "dependencies": [
+
   ],
   "operatingsystem_support": [
     {
@@ -36,7 +36,8 @@
       "version_requirement": ">= 5.4.0 < 6.0.0"
     }
   ],
+  "description": "A Puppet module to manage Nutanix Enterprise Cloud resources",
   "pdk-version": "1.5.0",
   "template-url": "https://github.com/puppetlabs/pdk-templates",
-  "template-ref": "heads/master-0-g34e3266"
+  "template-ref": "heads/master-0-g7e98fee"
 }
