@@ -12,13 +12,7 @@ NOTE: puppet-nutanix is currently tech preview as of 6 June 2018. See "Current D
 
 | Master                                                                                                                                                          | Develop                                                                                                                                                           |
 | --------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [![Build Status](https://travis-ci.org/nutanix/puppet-nutanix.svg?branch=master)](https://travis-ci.org/nutanix/puppet-nutanix) | (TBD) |
-
-
-
-
-
-
+| [![Build Status](https://travis-ci.com/nutanix/puppet-nutanix.svg?branch=master)](https://travis-ci.com/nutanix/puppet-nutanix) | (TBD) |
 
 
 #### Table of Contents

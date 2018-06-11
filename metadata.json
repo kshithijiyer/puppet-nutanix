@@ -1,5 +1,5 @@
 {
-  "name": "nutanix-nutanix",
+  "name": "nutanix-puppet-nutanix",
   "version": "0.1.0",
   "author": "nutanix",
   "summary": "A Puppet module to manage Nutanix Enterprise Cloud resources",
@@ -9,7 +9,6 @@
   "project_page": "https://github.com/nutanix/puppet-nutanix",
   "issues_url": "https://github.com/nutanix/puppet-nutanix/issues",
   "data_provider": null,
-
   "dependencies": [
 
   ],
@@ -21,28 +20,14 @@
       ]
     },
     {
-      "operatingsystem": "OracleLinux",
-      "operatingsystemrelease": [
-        "7"
-      ]
-    },
-    {
       "operatingsystem": "RedHat",
       "operatingsystemrelease": [
         "7"
       ]
     },
     {
-      "operatingsystem": "Debian",
-      "operatingsystemrelease": [
-        "8"
-      ]
-    },
-    {
       "operatingsystem": "Ubuntu",
       "operatingsystemrelease": [
-        "16.04",
-        "16.10",
         "18.04"
       ]
     }
