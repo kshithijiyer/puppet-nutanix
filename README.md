@@ -7,6 +7,7 @@ NOTE: puppet-nutanix is currently tech preview as of 6 June 2018. See "Current D
 #### Project, Build, Quality Status
 
 [![Waffle.io - Columns and their card count](https://badge.waffle.io/a16e2b7714f029510d38a972e7d351fbf93807b6a6ce9a2b562487e44126dffe.svg?columns=all)](https://waffle.io/nutanix/puppet-nutanix)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fnutanix%2Fpuppet-nutanix.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fnutanix%2Fpuppet-nutanix?ref=badge_shield)
 
 [![Maintainability](https://api.codeclimate.com/v1/badges/3c81080d72186e9d119f/maintainability)](https://codeclimate.com/github/nutanix/puppet-nutanix/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/3c81080d72186e9d119f/test_coverage)](https://codeclimate.com/github/nutanix/puppet-nutanix/test_coverage)
 
@@ -85,3 +86,7 @@ Since your module is awesome, other users will want to play with it. Let them kn
 ## Release Notes/Contributors/Etc. **Optional**
 
 If you aren't using changelog, put your release notes here (though you should consider using changelog). You can also add any additional sections you feel are necessary or important to include here. Please use the `## ` header.
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fnutanix%2Fpuppet-nutanix.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fnutanix%2Fpuppet-nutanix?ref=badge_large)
